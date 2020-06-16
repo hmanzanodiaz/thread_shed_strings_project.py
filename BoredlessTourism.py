@@ -9,7 +9,7 @@ def get_destination_index(destination): # initially I used DESTINATIONS as a par
       print("not in the list")
 
 # when wanting the get the index remember to use the individual element of that list as parameter because that will be the arguemnt I will call
-print(get_destination_index("Los Angeles, USA"))
+# print(get_destination_index("Los Angeles, USA"))
 
 def get_traveler_location(traveler):
     #traveler_destination = test_traveler[1] #In the body of get_traveler_location(), access the traveler’s destination string and save it into traveler_destination.
@@ -42,6 +42,7 @@ attractions = [[] for destination in destinations] # We want attractions to be a
 
 
 def add_attraction(destination, attraction):
+
   try:
     destination_index = get_destination_index(destination) # getting the destination INDEX called in the argument
     attractions_for_destination = attractions[destination_index].append(attraction) # APPEND to attractions LIST index the argument's  ATTRACTION
@@ -61,6 +62,61 @@ add_attraction("São Paulo, Brazil", ["Pátio do Colégio", ["historical site"]]
 add_attraction("São Paulo, Brazil", ["Pátio do Colégio", ["historical site"]])
 add_attraction("Cairo, Egypt", ["Egyptian Museum", ["museum"]])
 
-print(attractions)
+
+def find_attraction(destination, interests):
+    try:
+        destination_index = get_destination_index(destination)
+        attractions_in_city = attractions[destination_index]
+        attractions_with_interest = []
+
+        for attraction in attractions_in_city:
+            possible_attraction = attraction
+            attraction_tags = attraction[1]
+
+            for interest in interests:
+                    # return interest # this doesn't go
+                if interest in attraction_tags:
+                    attractions_with_interest.append(possible_attraction[0])
+        return attractions_with_interest
+    except ValueError:
+        return
+
+la_arts = find_attraction("Los Angeles, USA", ['art'])
+print(la_arts)
 
 
+def get_attractions_for_traveler(test_traveler):
+    traveler_destination = test_traveler[1]
+    traveler_interests = test_traveler[2]
+    traveler_attraction = find_attraction(traveler_destination, traveler_interests)
+# interests_string = "Hi " + test_traveler[0] + ", we think you'll like these places around " + test_traveler[1] + ": "
+    interests_string = "Hi " + test_traveler[0] + ", we think you'll like these places around " + traveler_destination + ": "
+    for tra_attraction in traveler_attraction:
+        interests_string += tra_attraction
+        print(", ")
+        return interests_string
+
+
+smills_france = get_attractions_for_traveler(['Dereck Smill', 'Paris, France', ['monument']])
+print(smills_france)
+
+
+
+#    for attraction in attractions_in_city:
+#         possible_attraction = attraction
+#         attraction_tags = attraction[1]
+#
+#         for interest in interests:
+#             if interest in attraction_tags:
+#                 attractions_with_interest.append(possible_attraction[0])
+#         return attractions_with_interest  ### this is indented incorrectly!!
+
+#     for possible_attraction in attractions_in_city:
+#         print(possible_attraction)
+#         for index in attractions:
+#             attraction_tags = index[1]
+#             for interest in interests:
+#                 # return interest # this doesn't go
+#                 if interest in attraction_tags:
+#                     attractions_with_interest.append(possible_attraction)
+#             return attractions_with_interest
