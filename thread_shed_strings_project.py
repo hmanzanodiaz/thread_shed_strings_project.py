@@ -107,10 +107,94 @@ green&white;,;09/15/17,   Gail Phelps   ;,;$30.52
 
 #------------------------------------------------
 # Start coding below!
-
+# 1) clean up string using replace, split and strip
+# 2) turn lists into string and list to format how I want
+# 3) I can use strip, split and replace in a for loop after the IN
+# 4) create empty lists, loop within loops, and append to get to the data I want
 daily_sales_replaced = daily_sales.replace(";,;", "+")
 
 daily_transactions = daily_sales_replaced.split(",")
 
-print(daily_transactions)
+# print(daily_transactions)
 
+daily_transactions_split = []
+
+for transaction in daily_transactions:
+  daily_transactions_split.append(transaction.split("+"))
+
+# print(daily_transactions_split)
+
+# from a string I replace characters and split them to create new lists I can iterate on.
+# to clean these lists I need to create new lists that will store clean data from the converted lists using STRIP
+
+transactions_clean = [] # final clean lists
+for details in daily_transactions_split: # loop outer transaction list
+    transaction_clean = [] # new list to store each transaction details
+    for detail in details: # loop through each detail
+        transaction_clean.append(detail.strip("\n").strip(" ").strip("\n")) # clean it up and append
+    transactions_clean.append(transaction_clean)
+
+print(transactions_clean)
+
+customers = []
+sales = []
+thread_sold = []
+
+for transactions in transactions_clean:
+        customers.append(transactions[0])
+        sales.append(transactions[1])
+        thread_sold.append(transactions[2])
+
+print(customers)
+print(sales)
+print(thread_sold)
+
+total_sales = 0
+
+for sale in sales:
+    total_sales += float(sale.strip("$"))
+print(total_sales)
+
+print(thread_sold)
+
+
+
+# for color in thread_sold:
+#     if "&" not in color:
+#         thread_sold_split.append(color)
+#     elif "&" in color:
+#         thread_sold_split.append(color.split("&"))
+# print(thread_sold_split)
+
+thread_sold_split = []
+for color in thread_sold:
+    for item_color in color.split("&"): # this iterates through the sublist after splitting
+        thread_sold_split.append(item_color) #dont need to append COLOR becuase that's part of the double for loop process
+print(thread_sold_split)
+
+def color_count(color):
+    count = 0
+    for item in thread_sold_split:
+        if color == item:
+            count += 1 # count if condition is met
+    return count
+
+print(color_count('white')) # because I'm returning I need to print the function with the argument
+
+colors = []
+for color in thread_sold_split:
+    if color not in colors:
+        colors.append(color)
+print(colors)
+
+colors = ['red','yellow','green','white','black','blue','purple']
+
+for color in colors:
+    print("Thread Shed sold {0} threads of {1} thread today."
+          .format(color_count(color), color)
+          )
+
+# for color in thread_sold_split:
+#     message = "Thread Shed sold {} threads of {color} thread today."
+#     message.format(color_count(), color = color)
+#     print(message)
